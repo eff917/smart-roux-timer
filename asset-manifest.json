@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/smart-roux-timer/static/css/main.b71a72dd.chunk.css",
+    "main.js": "/smart-roux-timer/static/js/main.27e5f9f2.chunk.js",
+    "main.js.map": "/smart-roux-timer/static/js/main.27e5f9f2.chunk.js.map",
+    "runtime-main.js": "/smart-roux-timer/static/js/runtime-main.b217cc07.js",
+    "runtime-main.js.map": "/smart-roux-timer/static/js/runtime-main.b217cc07.js.map",
+    "static/js/2.30a0bd48.chunk.js": "/smart-roux-timer/static/js/2.30a0bd48.chunk.js",
+    "static/js/2.30a0bd48.chunk.js.map": "/smart-roux-timer/static/js/2.30a0bd48.chunk.js.map",
+    "index.html": "/smart-roux-timer/index.html",
+    "precache-manifest.2730018aa122197557ab978beea457af.js": "/smart-roux-timer/precache-manifest.2730018aa122197557ab978beea457af.js",
+    "service-worker.js": "/smart-roux-timer/service-worker.js",
+    "static/css/main.b71a72dd.chunk.css.map": "/smart-roux-timer/static/css/main.b71a72dd.chunk.css.map",
+    "static/js/2.30a0bd48.chunk.js.LICENSE": "/smart-roux-timer/static/js/2.30a0bd48.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b217cc07.js",
+    "static/js/2.30a0bd48.chunk.js",
+    "static/css/main.b71a72dd.chunk.css",
+    "static/js/main.27e5f9f2.chunk.js"
+  ]
+}
