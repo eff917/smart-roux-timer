@@ -43,9 +43,10 @@ var material = [
 var geometry = new BoxBufferGeometry( 3, 3, 3, 3, 3, 3);
 
 // delete default face groups, and define groups for each cubie
+let colorArray=[6, 1, 6, 1, 6, 1, 6, 1, 6, 5, 3, 5, 3, 5, 3, 5, 3, 5, 2, 4, 2, 4, 2, 4, 2, 4, 2, 1, 6, 1, 6, 1, 6, 1, 6, 1, 3, 5, 3, 5, 3, 5, 3, 5, 3, 4, 2, 4, 2, 4, 2, 4, 2, 4];
 geometry.clearGroups();
 for(let i=0; i<geometry.index.count; i+=6) {
-    geometry.addGroup(i, 6, Math.floor(Math.random() * 6)); // the last number is the index of the color from material list
+    geometry.addGroup(i, 6, colorArray[(i/6)]-1); // the last number is the index of the color from material list
 }
 
 // combine colors and geometry
