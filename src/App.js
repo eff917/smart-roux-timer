@@ -8,6 +8,8 @@ import {
 import { parseCube } from './helpers/cubeParser';
 import './App.css';
 
+import './helpers/display';
+
 const faceColorMap = ['g', 'y', 'r', 'w', 'o', 'b'];
 
 class App extends React.Component {
@@ -35,6 +37,8 @@ class App extends React.Component {
               const characteristic = await startNotifications(server);
               characteristic.addEventListener('characteristicvaluechanged', event => {
                 const { value } = event.target; // 20 bytes sent by the cube
+                const cubeRawState = parseCube(value);
+                console.log(cubeRawState);
                 const cubeState = parseCube(value) // We parse it to an array of 54 colors (1...6)
                   .map(faceletColor => faceColorMap[faceletColor - 1])
                   .join('');
