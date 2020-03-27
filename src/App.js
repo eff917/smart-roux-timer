@@ -8,7 +8,7 @@ import {
 import { parseCube } from './helpers/cubeParser';
 import './App.css';
 
-import './helpers/display';
+import {render, recolorCube} from './helpers/display';
 
 const faceColorMap = ['g', 'y', 'r', 'w', 'o', 'b'];
 
@@ -21,7 +21,6 @@ class App extends React.Component {
   componentWillUnmount() {
     disconnectFromBluetoothDevice(this.device);
   }
-
   render() {
     return (
       <div className="App">
@@ -39,6 +38,8 @@ class App extends React.Component {
                 const { value } = event.target; // 20 bytes sent by the cube
                 const cubeRawState = parseCube(value);
                 console.log(cubeRawState);
+                recolorCube(cubeRawState);
+                render();    
                 const cubeState = parseCube(value) // We parse it to an array of 54 colors (1...6)
                   .map(faceletColor => faceColorMap[faceletColor - 1])
                   .join('');
