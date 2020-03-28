@@ -8,7 +8,7 @@ import {
 import { parseCube } from './helpers/cubeParser';
 import './App.css';
 
-import {render, recolorCube} from './helpers/display';
+import {renderCube, recolorCube} from './helpers/display';
 
 const faceColorMap = ['g', 'y', 'r', 'w', 'o', 'b'];
 
@@ -16,7 +16,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { cubeState: 'bbbbbbbbboooooooooyyyyyyyyygggggggggrrrrrrrrrwwwwwwwww' };
-    this.cubeRawState=[6, 1, 6, 1, 6, 1, 6, 1, 6, 5, 3, 5, 3, 5, 3, 5, 3, 5, 2, 4, 2, 4, 2, 4, 2, 4, 2, 1, 6, 1, 6, 1, 6, 1, 6, 1, 3, 5, 3, 5, 3, 5, 3, 5, 3, 4, 2, 4, 2, 4, 2, 4, 2, 4];
+    this.cubeRawState=[6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4];
     this.device = null;
   }
   componentWillUnmount() {
@@ -38,9 +38,9 @@ class App extends React.Component {
               characteristic.addEventListener('characteristicvaluechanged', event => {
                 const { value } = event.target; // 20 bytes sent by the cube
                 const cubeRawState = parseCube(value);
-                //console.log(cubeRawState);
+                console.log(cubeRawState);
                 recolorCube(cubeRawState);
-                render();    
+                renderCube();    
                 const cubeState = parseCube(value) // We parse it to an array of 54 colors (1...6)
                   .map(faceletColor => faceColorMap[faceletColor - 1])
                   .join('');
@@ -52,8 +52,10 @@ class App extends React.Component {
               });
             }}
           >
-            connect
+            Connect cube
           </button>
+          <button
+          >Ready</button>
         </div>
       </div>
     );

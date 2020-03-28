@@ -12,7 +12,7 @@ import {
     Color
   } from "three";
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-  
+
   var renderer = new WebGLRenderer();
   renderer.setSize( 600, 600 );
   document.getElementById( 'viewer' ).appendChild( renderer.domElement );
@@ -31,7 +31,7 @@ cubeCamera.renderTarget.texture.encoding = sRGBEncoding;
 
 // controls
 var controls = new OrbitControls( camera, renderer.domElement );
-controls.addEventListener( 'change', render );
+controls.addEventListener( 'change', renderCube );
 controls.minDistance = 5;
 controls.maxDistance = 30;
 controls.enablePan = false;
@@ -120,7 +120,7 @@ cube.rotateX(3.14/4);
 scene.add( cube );
 
 camera.position.z = 5;
-export function render() {
+export function renderCube() {
 
     renderer.render( scene, camera );
     // console.log(cube)
