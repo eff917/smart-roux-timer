@@ -39,25 +39,25 @@ controls.minDistance = 5;
 controls.maxDistance = 30;
 controls.enablePan = false;
 
-const cubeColor = [
-    0x000000,
-    0x009b48, //green
-    0xffd500, //yellow
-    0xb71234, //red
-    0xffffff, //white
-    0xff5800, //orange
-    0x0046ad, //blue
-];
+const cubeColor = {
+    "black": 0x000000,
+    "green": 0x009b48, //green
+    "yellow": 0xffd500, //yellow
+    "red":0xb71234, //red
+    "white": 0xffffff, //white
+    "orange": 0xff5800, //orange
+    "blue": 0x0046ad //blue
+};
 
 
 // define colorGroup to choose color from
 var material = [
-    new MeshBasicMaterial( {color: cubeColor[5]} ),
-    new MeshBasicMaterial( {color: cubeColor[3]} ),
-    new MeshBasicMaterial( {color: cubeColor[1]} ),
-    new MeshBasicMaterial( {color: cubeColor[6]} ),
-    new MeshBasicMaterial( {color: cubeColor[4]} ),
-    new MeshBasicMaterial( {color: cubeColor[2]} ),
+    new MeshBasicMaterial( {color: cubeColor.blue} ),
+    new MeshBasicMaterial( {color: cubeColor.white} ),
+    new MeshBasicMaterial( {color: cubeColor.orange} ),
+    new MeshBasicMaterial( {color: cubeColor.yellow} ),
+    new MeshBasicMaterial( {color: cubeColor.red} ),
+    new MeshBasicMaterial( {color: cubeColor.green} ),
 ];
 var geometry = new BoxBufferGeometry( 3, 3, 3, 3, 3, 3);
 
