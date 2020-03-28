@@ -12,10 +12,11 @@ import {
     Color
   } from "three";
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+  
   var renderer = new WebGLRenderer();
   renderer.setSize( 600, 600 );
-  document.body.appendChild( renderer.domElement );
-    
+  document.getElementById( 'viewer' ).appendChild( renderer.domElement );
+  
 var scene = new Scene();
 scene.background = new Color( 0xf0f0f0 );
 var camera = new PerspectiveCamera( 75, 1, 0.1, 1000 );
