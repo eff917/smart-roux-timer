@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/smart-roux-timer/precache-manifest.4dc4a849667dc03485d30e05fc5029bf.js"
+  "/smart-roux-timer/precache-manifest.9f954827190166c4b882e3fe4a82d0a1.js"
 );
 
 self.addEventListener('message', (event) => {
