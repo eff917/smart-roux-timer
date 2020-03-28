@@ -53,26 +53,47 @@ const cubeColor = {
 // define colorGroup to choose color from
 var material = [
     new MeshBasicMaterial( {color: cubeColor.blue} ),
-    new MeshBasicMaterial( {color: cubeColor.white} ),
-    new MeshBasicMaterial( {color: cubeColor.orange} ),
-    new MeshBasicMaterial( {color: cubeColor.yellow} ),
-    new MeshBasicMaterial( {color: cubeColor.red} ),
-    new MeshBasicMaterial( {color: cubeColor.green} ),
+    new MeshBasicMaterial( {color: cubeColor.white} ), // to orange
+    new MeshBasicMaterial( {color: cubeColor.orange} ), // to yellow
+    new MeshBasicMaterial( {color: cubeColor.yellow} ), // to green
+    new MeshBasicMaterial( {color: cubeColor.red} ), // to red
+    new MeshBasicMaterial( {color: cubeColor.green} ), // to white
 ];
 var geometry = new BoxBufferGeometry( 3, 3, 3, 3, 3, 3);
 
 // delete default face groups, and define groups for each cubie
 let colorArray=[6, 1, 6, 1, 6, 1, 6, 1, 6, 5, 3, 5, 3, 5, 3, 5, 3, 5, 2, 4, 2, 4, 2, 4, 2, 4, 2, 1, 6, 1, 6, 1, 6, 1, 6, 1, 3, 5, 3, 5, 3, 5, 3, 5, 3, 4, 2, 4, 2, 4, 2, 4, 2, 4];
-geometry.clearGroups();
-for(let i=0; i<geometry.index.count; i+=6) {
-    geometry.addGroup(i, 6, colorArray[(i/6)]-1); // the last number is the index of the color from material list
-}
+recolorCube(colorArray);
 
 export function recolorCube(array) {
     geometry.clearGroups();
-    for(let i=0; i<geometry.index.count; i+=6) {
+    // TODO change group order:
+    // each facelet is a group of 6 vertice points
+    // each face consists of 9 cubies
+    // blue facelets
+    for(let i=0; i<54; i+=6) {
         geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
-    }
+    };
+    // orange facelets
+    for( let i=(2*54); i<(3*54); i+=6) {
+        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+    };
+    // yellow facelets
+    for( let i=(3*54); i<(4*54); i+=6) {
+        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+    };
+    // green facelets
+    for( let i=(5*54); i<(6*54); i+=6) {
+        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+    };
+    // red facelets
+    for( let i=(4*54); i<(5*54); i+=6) {
+        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+    };
+    // white facelets
+    for( let i=(1*54); i<(2*54); i+=6) {
+        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+    };
 };
 // combine colors and geometry
 
@@ -85,6 +106,7 @@ camera.position.z = 5;
 export function render() {
 
     renderer.render( scene, camera );
+    console.log(cube)
 
 };
 
