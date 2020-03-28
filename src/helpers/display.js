@@ -1,5 +1,4 @@
 import { 
-    BoxGeometry,
     BoxBufferGeometry,
     MeshBasicMaterial,
     Mesh,
@@ -10,11 +9,7 @@ import {
     RGBAFormat,
     LinearFilter,
     sRGBEncoding,
-    FaceColors,
-    Color,
-    Vector3,
-    Colors,
-    VertexColors
+    Color
   } from "three";
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
   var renderer = new WebGLRenderer();
@@ -22,6 +17,7 @@ import {
   document.body.appendChild( renderer.domElement );
     
 var scene = new Scene();
+scene.background = new Color( 0xf0f0f0 );
 var camera = new PerspectiveCamera( 75, 1, 0.1, 1000 );
 // camera
 //camera = new PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -53,68 +49,80 @@ const cubeColor = {
 // define colorGroup to choose color from
 var material = [
     new MeshBasicMaterial( {color: cubeColor.black} ),
-    new MeshBasicMaterial( {color: cubeColor.blue} ),
-    new MeshBasicMaterial( {color: cubeColor.white} ), // to orange
-    new MeshBasicMaterial( {color: cubeColor.orange} ), // to yellow
-    new MeshBasicMaterial( {color: cubeColor.yellow} ), // to green
-    new MeshBasicMaterial( {color: cubeColor.red} ), // to red
-    new MeshBasicMaterial( {color: cubeColor.green} ), // to white
+    new MeshBasicMaterial( {color: cubeColor.green} ),
+    new MeshBasicMaterial( {color: cubeColor.yellow} ),
+    new MeshBasicMaterial( {color: cubeColor.red} ),
+    new MeshBasicMaterial( {color: cubeColor.white} ),
+    new MeshBasicMaterial( {color: cubeColor.orange} ),
+    new MeshBasicMaterial( {color: cubeColor.blue} )
 ];
 var geometry = new BoxBufferGeometry( 3, 3, 3, 3, 3, 3);
 
-// delete default face groups, and define groups for each cubie
-let colorArray=[6, 1, 6, 1, 6, 1, 6, 1, 6, 5, 3, 5, 3, 5, 3, 5, 3, 5, 2, 4, 2, 4, 2, 4, 2, 4, 2, 1, 6, 1, 6, 1, 6, 1, 6, 1, 3, 5, 3, 5, 3, 5, 3, 5, 3, 4, 2, 4, 2, 4, 2, 4, 2, 4];
-recolorCube(colorArray);
-
 export function recolorCube(array) {
     geometry.clearGroups();
-    // TODO change group order:
     // each facelet is a group of 6 vertice points
-    // each face consists of 9 cubies
+    // each face consists of 9 facelets
     let j=0
-    // blue facelets
-    for(let i=0; i<54; i+=6) {
-        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
-        j++;
-    };
-    // orange facelets
-    for( let i=(2*54); i<(3*54); i+=6) {
-        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
-        j++;
-    };
-    // yellow facelets
-    for( let i=(4*54); i<(5*54); i+=6) {
-        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
-        j++;
-    };
-    // green facelets
-    for( let i=(1*54); i<(2*54); i+=6) {
-        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
-        j++;
-    };
-    // red facelets
-    for( let i=(3*54); i<(4*54); i+=6) {
-        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
-        j++;
-    };
-    // white facelets
-    for( let i=(5*54); i<(6*54); i+=6) {
-        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
-        j++;
-    };
-};
-// combine colors and geometry
+    let offset = 6;
+    let stride;
 
+    // blue facelets (needed -180degrees to match array from cube)
+    for(let i=48; i>-1; i-=offset) {
+    geometry.addGroup(i, offset, array[j]); // the last number is the index of the color from material list
+        j++;
+    };
+
+    // orange facelets (needed to rotate clockwise)
+    let faceletOrder = [2, 5, 8, 1, 4, 7, 0, 3, 6]
+    stride = (4*54);
+    faceletOrder.forEach(facelet => {
+        geometry.addGroup(stride+facelet*offset, offset, array[j])
+        j++;            
+    });
+
+    // yellow facelets (needed to rotate clockwise)
+    faceletOrder = [2, 5, 8, 1, 4, 7, 0, 3, 6]
+    stride = (2*54);
+    faceletOrder.forEach(facelet => {
+        geometry.addGroup(stride+facelet*offset, offset, array[j])
+        j++;            
+    });
+
+    // green facelets (orientation is good)
+    for( let i=(1*54); i<(2*54); i+=offset) {
+        geometry.addGroup(i, offset, array[j]); // the last number is the index of the color from material list
+        j++;
+    };
+
+    // red facelets (needed to rotate counterclockwise)
+    faceletOrder = [6, 3, 0, 7, 4, 1, 8, 5, 2]
+    stride = (5*54);
+    faceletOrder.forEach(facelet => {
+        geometry.addGroup(stride+facelet*offset, 6, array[j])
+        j++;            
+    });
+
+    // white facelets (needed to rotate clockwise)
+    faceletOrder = [2, 5, 8, 1, 4, 7, 0, 3, 6]
+    stride = (3*54);
+    faceletOrder.forEach(facelet => {
+        geometry.addGroup(stride+facelet*offset, 6, array[j])
+        j++;            
+    });
+};
+
+// combine colors and shape
 var cube = new Mesh( geometry, material);
-console.log(cube)
+cube.rotateZ(3.14);
+cube.rotateY(3.14/4*3);
+cube.rotateX(3.14/4);
 scene.add( cube );
 
 camera.position.z = 5;
-
 export function render() {
 
     renderer.render( scene, camera );
-    console.log(cube)
+    // console.log(cube)
 
 };
 

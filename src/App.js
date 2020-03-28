@@ -16,6 +16,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { cubeState: 'bbbbbbbbboooooooooyyyyyyyyygggggggggrrrrrrrrrwwwwwwwww' };
+    this.cubeRawState=[6, 1, 6, 1, 6, 1, 6, 1, 6, 5, 3, 5, 3, 5, 3, 5, 3, 5, 2, 4, 2, 4, 2, 4, 2, 4, 2, 1, 6, 1, 6, 1, 6, 1, 6, 1, 3, 5, 3, 5, 3, 5, 3, 5, 3, 4, 2, 4, 2, 4, 2, 4, 2, 4];
     this.device = null;
   }
   componentWillUnmount() {
@@ -24,10 +25,10 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <img
+        {/* <img
           alt="Rubik cube"
           src={`http://cube.crider.co.uk/visualcube.php?fmt=svg&r=x-90y-120x-20&size=300&fc=${this.state.cubeState}`}
-        />
+        /> */}
         <div>
           <button
             onClick={async () => {
@@ -37,7 +38,7 @@ class App extends React.Component {
               characteristic.addEventListener('characteristicvaluechanged', event => {
                 const { value } = event.target; // 20 bytes sent by the cube
                 const cubeRawState = parseCube(value);
-                console.log(cubeRawState);
+                //console.log(cubeRawState);
                 recolorCube(cubeRawState);
                 render();    
                 const cubeState = parseCube(value) // We parse it to an array of 54 colors (1...6)
