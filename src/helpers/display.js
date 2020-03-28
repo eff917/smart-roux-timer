@@ -52,6 +52,7 @@ const cubeColor = {
 
 // define colorGroup to choose color from
 var material = [
+    new MeshBasicMaterial( {color: cubeColor.black} ),
     new MeshBasicMaterial( {color: cubeColor.blue} ),
     new MeshBasicMaterial( {color: cubeColor.white} ), // to orange
     new MeshBasicMaterial( {color: cubeColor.orange} ), // to yellow
@@ -70,29 +71,36 @@ export function recolorCube(array) {
     // TODO change group order:
     // each facelet is a group of 6 vertice points
     // each face consists of 9 cubies
+    let j=0
     // blue facelets
     for(let i=0; i<54; i+=6) {
-        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
+        j++;
     };
     // orange facelets
     for( let i=(2*54); i<(3*54); i+=6) {
-        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
+        j++;
     };
     // yellow facelets
-    for( let i=(3*54); i<(4*54); i+=6) {
-        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+    for( let i=(4*54); i<(5*54); i+=6) {
+        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
+        j++;
     };
     // green facelets
-    for( let i=(5*54); i<(6*54); i+=6) {
-        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+    for( let i=(1*54); i<(2*54); i+=6) {
+        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
+        j++;
     };
     // red facelets
-    for( let i=(4*54); i<(5*54); i+=6) {
-        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+    for( let i=(3*54); i<(4*54); i+=6) {
+        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
+        j++;
     };
     // white facelets
-    for( let i=(1*54); i<(2*54); i+=6) {
-        geometry.addGroup(i, 6, array[(i/6)]-1); // the last number is the index of the color from material list
+    for( let i=(5*54); i<(6*54); i+=6) {
+        geometry.addGroup(i, 6, array[j]); // the last number is the index of the color from material list
+        j++;
     };
 };
 // combine colors and geometry
