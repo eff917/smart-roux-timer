@@ -12,6 +12,7 @@ import {
     Color
   } from "three";
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+  import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
 
   var renderer = new WebGLRenderer();
   renderer.setSize( 600, 600 );
@@ -24,13 +25,12 @@ var camera = new PerspectiveCamera( 75, 1, 0.1, 1000 );
 //camera = new PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
 camera.position.set( 0, 0, 30 );
 
-var cubeCamera = new CubeCamera( 1, 1000, 256, { format: RGBAFormat, magFilter: LinearFilter, minFilter: LinearFilter } );
-
-//Since gamma is applied during rendering, the cubeCamera renderTarget texture encoding must be sRGBEncoding
-cubeCamera.renderTarget.texture.encoding = sRGBEncoding;
-
 // controls
 var controls = new OrbitControls( camera, renderer.domElement );
+controls.enabled = true;
+controls.rotateSpeed = 1.0;
+controls.zoomSpeed = 1.2;
+//controls.keys = [ 65, 83, 68 ];
 controls.addEventListener( 'change', renderCube );
 controls.minDistance = 5;
 controls.maxDistance = 30;
