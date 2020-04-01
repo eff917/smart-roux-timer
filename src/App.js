@@ -55,6 +55,7 @@ class App extends React.Component {
                 });
                 //console.log(moveList);
                 let blockFound = findBlock(cubeRawState);
+                document.getElementById("moveCount").innerHTML = "<p>Moves: " + moveList.length + "</p><br />";
                 document.getElementById("moveDisplay").innerHTML = "<p>" + moveList + "</p><br /><p> " + blockFound + "</p>" 
                 findBlock(cubeRawState)
               });
@@ -67,6 +68,7 @@ class App extends React.Component {
           </button>
           <button
           >Ready</button>
+          <div id="moveCount"></div>
           <div id="moveDisplay">
           </div>
         </div>
