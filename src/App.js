@@ -17,9 +17,13 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { cubeState: 'bbbbbbbbboooooooooyyyyyyyyygggggggggrrrrrrrrrwwwwwwwww' };
-    this.cubeRawState=[6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4];
+    this.cubeRawState=[6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4];
     this.device = null;
     this.moves = [];
+  }
+  componentDidMount() {
+    recolorCube(this.cubeRawState);
+    renderCube();
   }
   componentWillUnmount() {
     disconnectFromBluetoothDevice(this.device);
@@ -27,11 +31,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        {/* <img
-          alt="Rubik cube"
-          src={`http://cube.crider.co.uk/visualcube.php?fmt=svg&r=x-90y-120x-20&size=300&fc=${this.state.cubeState}`}
-        /> */}
-        <div>
+        <div >
           <button
             onClick={async () => {
               const { server, device } = await connectToBluetoothDevice();
@@ -54,7 +54,9 @@ class App extends React.Component {
                   moveList.push(move += "<br />");
                 });
                 //console.log(moveList);
-                document.getElementById("moveDisplay").innerHTML = "<p>" + moveList + "</p>" + findBlock(cubeRawState)
+                let blockFound = findBlock(cubeRawState);
+                document.getElementById("moveDisplay").innerHTML = "<p>" + moveList + "</p><br /><p> " + blockFound + "</p>" 
+                findBlock(cubeRawState)
               });
               device.addEventListener('gattserverdisconnected', () => {
                 disconnectFromBluetoothDevice(device);
