@@ -8,7 +8,7 @@ import {
 import { parseCube } from './helpers/cubeParser';
 import './App.css';
 
-import {renderCube, recolorCube} from './helpers/display';
+import {renderCube, recolorCube} from './helpers/displayCube';
 import { findBlock } from "./helpers/blockfinder";
 
 const faceColorMap = ['g', 'y', 'r', 'w', 'o', 'b'];
@@ -28,6 +28,7 @@ class App extends React.Component {
   componentWillUnmount() {
     disconnectFromBluetoothDevice(this.device);
   }
+  
   render() {
     return (
       <div className="App">
@@ -49,7 +50,7 @@ class App extends React.Component {
                   .join('');
                 this.setState({ cubeState });
                 //console.log(cubeState);
-                var moveList = [];
+                let moveList = [];
                 this.moves.forEach(move => {
                   moveList.push(move += "<br />");
                 });
@@ -57,7 +58,6 @@ class App extends React.Component {
                 let blockFound = findBlock(cubeRawState);
                 document.getElementById("moveCount").innerHTML = "<p>Moves: " + moveList.length + "</p><br />";
                 document.getElementById("moveDisplay").innerHTML = "<p>" + moveList + "</p><br /><p> " + blockFound + "</p>" 
-                findBlock(cubeRawState)
               });
               device.addEventListener('gattserverdisconnected', () => {
                 disconnectFromBluetoothDevice(device);
@@ -66,8 +66,14 @@ class App extends React.Component {
           >
             Connect cube
           </button>
-          <button
-          >Ready</button>
+          <button onClick={() => { 
+            this.moves = [];
+            let moveList = [];
+            document.getElementById("moveCount").innerHTML = "<p>Moves: " + moveList.length + "</p><br />";
+            document.getElementById("moveDisplay").innerHTML = "<p>" + moveList + "</p><br />" 
+
+          }}
+          >Reset</button>
           <div id="moveCount"></div>
           <div id="moveDisplay">
           </div>
