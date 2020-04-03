@@ -1,3 +1,6 @@
+import { whiteBlocks } from "./whiteblocks";
+import { yellowBlocks } from "./yellowblocks";
+
 var referenceState;
 //solved
 referenceState = [6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4];
@@ -8,8 +11,6 @@ referenceState = [6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,1,1,1,1,
 // blue side white bottom block, orange center down
 // referenceState = [6,6,6,6,6,6,6,6,6,4,4,4,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,2,2,2,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4]
 
-import { whiteBlocks } from "./whiteblocks";
-import { yellowBlocks } from "./yellowblocks";
 
 var blocks;
 blocks = whiteBlocks.concat(yellowBlocks);
