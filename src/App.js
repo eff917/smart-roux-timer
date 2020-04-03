@@ -57,7 +57,7 @@ class App extends React.Component {
                 //console.log(moveList);
                 let blockFound = findBlock(cubeRawState);
                 document.getElementById("moveCount").innerHTML = "<p>Moves: " + moveList.length + "</p><br />";
-                document.getElementById("moveDisplay").innerHTML = "<p>" + moveList + "</p><br /><p> " + blockFound + "</p>" 
+                document.getElementById("moveDisplay").innerHTML = "<p>" + blockFound + "</p><br /><p> " + moveList + "</p>" 
               });
               device.addEventListener('gattserverdisconnected', () => {
                 disconnectFromBluetoothDevice(device);
@@ -74,9 +74,8 @@ class App extends React.Component {
 
           }}
           >Reset</button>
+          <div id="moveDisplay"></div>
           <div id="moveCount"></div>
-          <div id="moveDisplay">
-          </div>
         </div>
       </div>
     );
