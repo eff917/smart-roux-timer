@@ -24,8 +24,8 @@ class App extends React.Component {
     this.ready = false;
     this.timerController = new timerController();
     this.moveList = [];
-    this.fbFound;
-    this.sbFound;
+    this.fbFound = false;
+    this.sbFound = false;
     this.solveStats = [];
   }
   componentDidMount() {
@@ -103,9 +103,8 @@ class App extends React.Component {
             this.solveStats = [];
             this.moveList.push(this.cubeRawState);
             document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p><br />";
-            document.getElementById("moveDisplay").innerHTML = "<p>" + this.moveList + "</p><br />" 
+            document.getElementById("moveDisplay").innerHTML = "<p>" + this.moveList + "</p><br />";
             this.ready = true
-            this.timerController.stateTransition(this.cubeRawState, true) == false
           }}
           >Reset</button>
           <div id="timer"><p>0.00</p></div>
