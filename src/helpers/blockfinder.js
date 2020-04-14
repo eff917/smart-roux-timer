@@ -11,33 +11,30 @@ referenceState = [6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,1,1,1,1,
 // blue side white bottom block, orange center down
 // referenceState = [6,6,6,6,6,6,6,6,6,4,4,4,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,2,2,2,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4]
 
-
 var blocks;
 blocks = whiteBlocks.concat(yellowBlocks);
-console.log(blocks)
+//console.log(blocks)
 
 //b.map(i => a[i])
 export function findBlock(cubeState) {
     let blockFound = false;
     let blockString = "";
+    let blockList = [];
     blocks.forEach(block => {
         // select elements from cubestate based on blck.index values
         let facelets = block.index.map(i => cubeState[i])
         // compare selected element colors with reference
-        console.log(block.name + " Actual    value:" + JSON.stringify(facelets));
-        console.log(block.name + " Reference value:" + JSON.stringify(block.value));
+        // console.log(block.name + " Actual    value:" + JSON.stringify(facelets));
+        // console.log(block.name + " Reference value:" + JSON.stringify(block.value));
         if (JSON.stringify(facelets) == JSON.stringify(block.value)) {
             blockString += block.name + " ";
-            console.log("Block found!")
+            //console.log("Block found!")
             blockFound = true;
+            blockList.push(block.name);
         } 
     }
     );
-    if (blockFound) {
-        return "Block(s) Found. " + blockString;
-    } else {
-        return "No block found.";
-    }
+    return blockList;
 }
 
 
