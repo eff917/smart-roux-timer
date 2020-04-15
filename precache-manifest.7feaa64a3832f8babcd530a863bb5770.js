@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "de79a8dc0a8e27f22b4411f21e10fb19",
+    "revision": "670be1cb8c861cc8a2df6f3cd7ee9ef0",
     "url": "/smart-roux-timer/index.html"
   },
   {
-    "revision": "bd3b5e7527e806ce4d03",
+    "revision": "21aa586493226a3247e6",
     "url": "/smart-roux-timer/static/css/main.b71a72dd.chunk.css"
   },
   {
@@ -12,12 +12,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/smart-roux-timer/static/js/2.3468a343.chunk.js"
   },
   {
-    "revision": "85b12af60ddf57ea6860c3b16407fd52",
-    "url": "/smart-roux-timer/static/js/2.3468a343.chunk.js.LICENSE"
+    "revision": "e88a3e95b5364d46e95b35ae8c0dc27d",
+    "url": "/smart-roux-timer/static/js/2.3468a343.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "bd3b5e7527e806ce4d03",
-    "url": "/smart-roux-timer/static/js/main.0681e8da.chunk.js"
+    "revision": "21aa586493226a3247e6",
+    "url": "/smart-roux-timer/static/js/main.21c3299b.chunk.js"
   },
   {
     "revision": "600f13b689e521728963",
