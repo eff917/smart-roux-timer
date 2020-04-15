@@ -20,13 +20,12 @@ class App extends React.Component {
     this.state = { cubeState: 'bbbbbbbbboooooooooyyyyyyyyygggggggggrrrrrrrrrwwwwwwwww' };
     this.cubeRawState=[6,6,6,6,6,6,6,6,6,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4];
     this.device = null;
-    this.moves = [];
     this.ready = false;
     this.timerController = new timerController();
     this.moveList = [];
     this.fbFound = false;
     this.sbFound = false;
-    this.solveStats = [];
+    this.solveStats = {};
   }
   componentDidMount() {
     recolorCube(this.cubeRawState);
@@ -48,7 +47,6 @@ class App extends React.Component {
               characteristic.addEventListener('characteristicvaluechanged', event => {
                 const { value } = event.target; // 20 bytes sent by the cube
                 const cubeRawState = parseCube(value);
-                this.moves.push(cubeRawState);
                 //console.log(cubeRawState);
                 recolorCube(cubeRawState);
                 renderCube();    
@@ -66,26 +64,53 @@ class App extends React.Component {
                 if (blockFound.length > 0 && !this.fbFound) {
                   this.fbFound = true;
                   console.log("First block: " + blockFound);
-                  this.solveStats.push({ "movecount": (this.moveList.length -1), "block": blockFound[0].slice(0,2)});
+                  console.log(this.timerController.timer.getTime());
+                  this.solveStats["FB"] = { 
+                    "movecount": (this.moveList.length -1), 
+                    "block": blockFound[0].slice(0,2),
+                    "time": this.timerController.timer.getTime(),
+                  };
                   
                 }
                 if (blockFound.length > 1 && this.fbFound && !this.sbFound) {
                   this.sbFound = true;
                   console.log("First and second block: " + blockFound);
+                  console.log(this.timerController.timer.getTime());
                   blockFound.forEach(foundBlock => {
-                    if (foundBlock.slice(0,2) == this.solveStats[0]["block"]) {
+                    if (foundBlock.slice(0,2) == this.solveStats["FB"].block) {
                     } else {
-                      this.solveStats.push({ "movecount": (this.moveList.length -1), "block": foundBlock.slice(0,2)});
+                      this.solveStats["SB"] = { 
+                        "movecount": (this.moveList.length -1), 
+                        "block": foundBlock.slice(0,2),
+                        "time": this.timerController.timer.getTime(),
+                      };
                     }
-                  });
+                  }); 
                 }
                 
                 document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p><br />";
                 let statString = "";
-                this.solveStats.forEach(stat => {
-                  statString += "<p>Block: " + stat.block + " Moves: " + stat.movecount + "</p><br />"
-                  //document.getElementById("moveDisplay").innerHTML = "<p>" + blockFound + "</p><br /><p> " + this.solveStats + "</p>";
-                });
+                for(var key in this.solveStats) {
+                  statString += "<p>" + key + ": " + this.solveStats[key].block;
+                  statString += " Moves: " + this.solveStats[key].movecount;
+                  statString += " Time: ";
+                  switch(key) {
+                  case "FB":
+                    statString += this.timerController.convertTime(this.solveStats[key].time);
+                      break;
+                    case "SB":
+                      statString += this.timerController.convertTime(this.solveStats[key].time - this.solveStats["FB"].time );
+                      break;
+                    case "CMLL":
+                      statString += this.timerController.convertTime(this.solveStats[key].time - this.solveStats["SB"].time );
+                      break;
+                    case "END":
+                      statString += this.timerController.convertTime(this.solveStats[key].time - this.solveStats["CMLL"].time );
+                      break;
+                  };
+                  statString += "</p><br />";
+                  // do something with "key" and "value" variables
+                }
                 document.getElementById("moveDisplay").innerHTML = statString;                  
               });
               device.addEventListener('gattserverdisconnected', () => {
@@ -103,7 +128,7 @@ class App extends React.Component {
             this.solveStats = [];
             this.moveList.push(this.cubeRawState);
             document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p><br />";
-            document.getElementById("moveDisplay").innerHTML = "<p>" + this.moveList + "</p><br />";
+            document.getElementById("moveDisplay").innerHTML = "<p></p><br />";
             this.ready = true
           }}
           >Reset</button>

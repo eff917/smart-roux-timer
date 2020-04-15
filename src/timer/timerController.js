@@ -40,5 +40,5 @@ export  class timerController {
             console.log("Timer stopped");
             return false;
         }
-    }
+    };
 }
