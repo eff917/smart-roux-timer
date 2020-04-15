@@ -11,25 +11,36 @@ indexes:
   Red: 36,38,42,44
   White: 45,47,51,53
  */
-const faceletIndexes = {
-  "blue": [0,2,6,8],
-  "orange": [9,11,15,17],
-  "yellow": [18,20,24,26],
-  "green": [27,29,33,35],
-  "red": [36,38,42,44],
-  "white": [45,47,51,53]
+const faceletIndexes = [
+  [0,2,6,8], // blue
+  [9,11,15,17], // orange
+  [18,20,24,26], // yellow
+  [27,29,33,35], //green
+  [36,38,42,44], // red
+  [45,47,51,53] // white
+];
+const faces = [
+  "[1,1,1,1]",
+  "[2,2,2,2]",
+  "[3,3,3,3]",
+  "[4,4,4,4]",
+  "[5,5,5,5]",
+  "[6,6,6,6]"
+];
+
+const allEqual = (face) => {
+  faces.includes(JSON.stringify(facelets))
 };
 
-const allEqual = arr => arr.every( v => v === arr[0] )
-  
 export function isCMLLsolved(cubeState) {
-  let solved = true;
-  faceletIndexes.forEach(side => {
-    let facelets = side.map(i => cubeState[i])
-    if (!allEqual( facelets )) {
-      solved = false;
-      break;
+  let cmllDone = true;
+  faceletIndexes.forEach( face => {
+    let facelets = JSON.stringify(face.map(i => cubeState[i]));
+    console.log(facelets);
+    if (!faces.includes(facelets)) {
+      cmllDone = false;
     };
   });
-  return solved;
-}
+  console.log(cmllDone);
+  return cmllDone;
+};

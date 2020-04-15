@@ -9,8 +9,9 @@ import { parseCube } from './helpers/cubeParser';
 import './App.css';
 
 import {renderCube, recolorCube} from './helpers/displayCube';
-import { findBlock } from "./helpers/roux/blockfinder";
 import { timerController } from "./timer/timerController";
+import { findBlock } from "./helpers/roux/blockfinder";
+import { isCMLLsolved } from "./helpers/roux/cmll";
 
 const faceColorMap = ['g', 'y', 'r', 'w', 'o', 'b'];
 
@@ -24,6 +25,8 @@ class App extends React.Component {
     this.moveList = [];
     this.fbFound = false;
     this.sbFound = false;
+    this.cmllDone = false;
+    this.eoDone = false;
     this.solveStats = {};
   }
   componentDidMount() {
@@ -49,7 +52,7 @@ class App extends React.Component {
                 //console.log(cubeRawState);
                 recolorCube(cubeRawState);
                 renderCube();    
-                this.moveList.push((cubeRawState + "<br />"));
+                this.moveList.push((cubeRawState));
                 //console.log(moveList);
                 if (this.timerController.stateTransition(cubeRawState, this.ready) == false) {
                   this.ready = false;
@@ -78,9 +81,24 @@ class App extends React.Component {
                         "block": foundBlock.slice(0,2),
                         "time": this.timerController.timer.getTime(),
                       };
-                    }
+                    };
                   }); 
-                }
+                };
+                if (this.sbFound && isCMLLsolved(cubeRawState)) {
+                  console.log("CMLL done")
+                  this.solveStats["CMLL"] = { 
+                    "movecount": (this.moveList.length -1), 
+                    "time": this.timerController.timer.getTime(),
+                  };
+                  this.cmllDone = true;
+                };
+                if (this.cmllDone) {
+                  // start checking for EO
+                };
+                if (this.eoDone) {
+                  // LSE
+                };
+                
                 
                 document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p><br />";
                 let statString = "";
@@ -119,6 +137,8 @@ class App extends React.Component {
             this.moveList = [];
             this.fbFound = false;
             this.sbFound = false;
+            this.cmllDone = false;
+            this.eoDone = false;
             this.solveStats = [];
             this.moveList.push(this.cubeRawState);
             document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p><br />";
