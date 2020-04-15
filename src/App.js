@@ -9,7 +9,7 @@ import { parseCube } from './helpers/cubeParser';
 import './App.css';
 
 import {renderCube, recolorCube} from './helpers/displayCube';
-import { findBlock } from "./helpers/blockfinder";
+import { findBlock } from "./helpers/roux/blockfinder";
 import { timerController } from "./timer/timerController";
 
 const faceColorMap = ['g', 'y', 'r', 'w', 'o', 'b'];
