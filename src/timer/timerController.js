@@ -37,6 +37,7 @@ export  class timerController {
             document.getElementById("timer").innerHTML = "<p>" + convertTime(this.solveTime) + "</p>";
             console.log("Timer stopped");
         }
+        console.log("Time from timer: " + this.timer.getTime())
         return false;
     };
 }

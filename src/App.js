@@ -54,6 +54,7 @@ class App extends React.Component {
                   this.ready = false;
                 }
                 const moveTime = this.timerController.timer.getTime();
+                console.log("Time from move: " + moveTime);
                         if (this.solveStats.length == 0) {
                           this.solveStats.push({
                             "name": "Start",
@@ -155,9 +156,9 @@ class App extends React.Component {
             this.ready = true
           }}
           >Ready</button>
-          <div id="timer"><p>0.00</p></div>
-          <div id="moveCount"></div>
-          <div id="moveDisplay"></div>
+          <div id="timer" align="center"><p>0.00</p></div>
+          <div id="moveCount" align="center"></div>
+          <div id="moveDisplay" align="center"></div>
         </div>
       </div>
     );
