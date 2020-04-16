@@ -152,6 +152,7 @@ class App extends React.Component {
             this.sbFound = false;
             this.cmllDone = false;
             this.eoDone = false;
+            this.solved = false;
             this.solveStats = [];
             this.moveList.push(this.cubeRawState);
             document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p><br />";
