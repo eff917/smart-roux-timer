@@ -36,11 +36,11 @@ export function isCMLLsolved(cubeState) {
   let cmllDone = true;
   faceletIndexes.forEach( face => {
     let facelets = JSON.stringify(face.map(i => cubeState[i]));
-    console.log(facelets);
+    // console.log(facelets);
     if (!faces.includes(facelets)) {
       cmllDone = false;
     };
   });
-  console.log(cmllDone);
+  // console.log(cmllDone);
   return cmllDone;
 };

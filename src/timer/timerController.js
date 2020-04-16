@@ -13,9 +13,11 @@ export  class timerController {
         }
     }
     convertTime(millisec) {
+        console.log("Converting: " + millisec);
         let minutes = Math.floor((millisec/60000) << 0);
         let seconds = Math.floor((millisec/1000) % 60);
-        let millis = (Math.floor(millisec % 1000) + "0").slice(0, 2);
+        // let millis = (Math.floor(millisec % 1000) + "0").slice(0, 2);
+        let millis = ("00" + Math.floor(millisec % 1000)).substr(-3,2);
         if (minutes > 0) {
             return minutes + ":" + ("0" + seconds).slice(-2) + "." + millis;
         } else {

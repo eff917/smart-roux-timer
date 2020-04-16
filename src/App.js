@@ -12,8 +12,7 @@ import {renderCube, recolorCube} from './helpers/displayCube';
 import { timerController } from "./timer/timerController";
 import { findBlock } from "./helpers/roux/blockfinder";
 import { isCMLLsolved } from "./helpers/roux/cmll";
-
-const faceColorMap = ['g', 'y', 'r', 'w', 'o', 'b'];
+import { isEOsolved } from "./helpers/roux/eo";
 
 class App extends React.Component {
   constructor(props) {
@@ -27,6 +26,7 @@ class App extends React.Component {
     this.sbFound = false;
     this.cmllDone = false;
     this.eoDone = false;
+    this.solved = false;
     this.solveStats = {};
   }
   componentDidMount() {
@@ -60,8 +60,7 @@ class App extends React.Component {
                 let blockFound = findBlock(cubeRawState);
                 if (blockFound.length > 0 && !this.fbFound) {
                   this.fbFound = true;
-                  console.log("First block: " + blockFound);
-                  console.log(this.timerController.timer.getTime());
+                  console.log("First block: " + blockFound + " " + this.timerController.timer.getTime());
                   this.solveStats["FB"] = { 
                     "movecount": (this.moveList.length -1), 
                     "block": blockFound[0].slice(0,2),
@@ -71,8 +70,7 @@ class App extends React.Component {
                 }
                 if (blockFound.length > 1 && this.fbFound && !this.sbFound) {
                   this.sbFound = true;
-                  console.log("First and second block: " + blockFound);
-                  console.log(this.timerController.timer.getTime());
+                  console.log("First and second block: " + blockFound + " " + this.timerController.timer.getTime());
                   blockFound.forEach(foundBlock => {
                     if (foundBlock.slice(0,2) == this.solveStats["FB"].block) {
                     } else {
@@ -84,19 +82,31 @@ class App extends React.Component {
                     };
                   }); 
                 };
-                if (this.sbFound && isCMLLsolved(cubeRawState)) {
-                  console.log("CMLL done")
+                if (!this.cmllDone && this.sbFound && isCMLLsolved(cubeRawState)) {
+                  console.log("CMLL done " + this.timerController.timer.getTime());
                   this.solveStats["CMLL"] = { 
                     "movecount": (this.moveList.length -1), 
                     "time": this.timerController.timer.getTime(),
                   };
                   this.cmllDone = true;
                 };
-                if (this.cmllDone) {
-                  // start checking for EO
+                // start checking for EO
+                if (!this.eoDone && this.cmllDone && isEOsolved(cubeRawState)) {
+                  console.log("LSE/EO done " + this.timerController.timer.getTime())
+                  this.solveStats["EO"] = { 
+                    "movecount": (this.moveList.length -1), 
+                    "time": this.timerController.timer.getTime(),
+                  };
+                  this.eoDone = true;
                 };
-                if (this.eoDone) {
-                  // LSE
+                if (!this.solved && this.eoDone && this.timerController.isSolved(cubeRawState)) {
+                  console.log("Cube solved! " + this.timerController.timer.getTime());
+                  this.solveStats["END"] = { 
+                    "movecount": (this.moveList.length -1), 
+                    "time": this.timerController.timer.getTime(),
+                  };
+                  this.solved = true;
+
                 };
                 
                 
@@ -111,16 +121,19 @@ class App extends React.Component {
                     statString += this.timerController.convertTime(this.solveStats[key].time);
                       break;
                     case "SB":
-                      statString += this.timerController.convertTime(this.solveStats[key].time - this.solveStats["FB"].time );
+                      statString += this.timerController.convertTime((this.solveStats[key].time - this.solveStats["FB"].time) );
                       break;
                     case "CMLL":
-                      statString += this.timerController.convertTime(this.solveStats[key].time - this.solveStats["SB"].time );
+                      statString += this.timerController.convertTime((this.solveStats[key].time - this.solveStats["SB"].time) );
+                      break;
+                    case "EO":
+                      statString += this.timerController.convertTime((this.solveStats[key].time - this.solveStats["CMLL"].time) );
                       break;
                     case "END":
-                      statString += this.timerController.convertTime(this.solveStats[key].time - this.solveStats["CMLL"].time );
+                      statString += this.timerController.convertTime((this.solveStats[key].time - this.solveStats["EO"].time) );
                       break;
                   };
-                  statString += "</p><br />";
+                  statString += "</p>";
                   // do something with "key" and "value" variables
                 }
                 document.getElementById("moveDisplay").innerHTML = statString;                  
@@ -145,7 +158,7 @@ class App extends React.Component {
             document.getElementById("moveDisplay").innerHTML = "<p></p><br />";
             this.ready = true
           }}
-          >Reset</button>
+          >Ready</button>
           <div id="timer"><p>0.00</p></div>
           <div id="moveCount"></div>
           <div id="moveDisplay"></div>
