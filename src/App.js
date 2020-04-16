@@ -9,10 +9,11 @@ import { parseCube } from './helpers/cubeParser';
 import './App.css';
 
 import {renderCube, recolorCube} from './helpers/displayCube';
-import { timerController } from "./timer/timerController";
+import { timerController, convertTime } from "./timer/timerController";
 import { findBlock } from "./helpers/roux/blockfinder";
 import { isCMLLsolved } from "./helpers/roux/cmll";
 import { isEOsolved } from "./helpers/roux/eo";
+import { displayStats } from "./helpers/roux/displaystats";
 
 class App extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class App extends React.Component {
     this.cmllDone = false;
     this.eoDone = false;
     this.solved = false;
-    this.solveStats = {};
+    this.solveStats = [];
   }
   componentDidMount() {
     recolorCube(this.cubeRawState);
@@ -49,94 +50,87 @@ class App extends React.Component {
               characteristic.addEventListener('characteristicvaluechanged', event => {
                 const { value } = event.target; // 20 bytes sent by the cube
                 const cubeRawState = parseCube(value);
+                if (this.timerController.stateTransition(cubeRawState, this.ready) == false) {
+                  this.ready = false;
+                }
+                const moveTime = this.timerController.timer.getTime();
+                        if (this.solveStats.length == 0) {
+                          this.solveStats.push({
+                            "name": "Start",
+                            "block": "",
+                            "movecount": 0,
+                            "time": 0
+                          });
+                        };
                 //console.log(cubeRawState);
                 recolorCube(cubeRawState);
                 renderCube();    
                 this.moveList.push((cubeRawState));
                 //console.log(moveList);
-                if (this.timerController.stateTransition(cubeRawState, this.ready) == false) {
-                  this.ready = false;
-                }
                 let blockFound = findBlock(cubeRawState);
                 if (blockFound.length > 0 && !this.fbFound) {
                   this.fbFound = true;
-                  console.log("First block: " + blockFound + " " + this.timerController.timer.getTime());
-                  this.solveStats["FB"] = { 
-                    "movecount": (this.moveList.length -1), 
+                  console.log("First block: " + blockFound + " " + moveTime);
+                  this.solveStats.push({ 
+                    "name": "FB",
                     "block": blockFound[0].slice(0,2),
-                    "time": this.timerController.timer.getTime(),
-                  };
+                    "movecount": (this.moveList.length -1), 
+                    "time": moveTime,
+                  });
                   
                 }
                 if (blockFound.length > 1 && this.fbFound && !this.sbFound) {
                   this.sbFound = true;
-                  console.log("First and second block: " + blockFound + " " + this.timerController.timer.getTime());
+                  console.log("First and second block: " + blockFound + " " + moveTime);
                   blockFound.forEach(foundBlock => {
-                    if (foundBlock.slice(0,2) == this.solveStats["FB"].block) {
+                    if (foundBlock.slice(0,2) == this.solveStats[1].block) {
                     } else {
-                      this.solveStats["SB"] = { 
-                        "movecount": (this.moveList.length -1), 
+                      this.solveStats.push({ 
+                        "name": "SB",
                         "block": foundBlock.slice(0,2),
-                        "time": this.timerController.timer.getTime(),
-                      };
+                        "movecount": (this.moveList.length -1), 
+                        "time": moveTime,
+                      });
                     };
                   }); 
                 };
                 if (!this.cmllDone && this.sbFound && isCMLLsolved(cubeRawState)) {
-                  console.log("CMLL done " + this.timerController.timer.getTime());
-                  this.solveStats["CMLL"] = { 
+                  console.log("CMLL done " + moveTime);
+                  this.solveStats.push({ 
+                    "name": "CMLL",
+                    "block": "",
                     "movecount": (this.moveList.length -1), 
-                    "time": this.timerController.timer.getTime(),
-                  };
+                    "time": moveTime,
+                  });
                   this.cmllDone = true;
                 };
                 // start checking for EO
                 if (!this.eoDone && this.cmllDone && isEOsolved(cubeRawState)) {
-                  console.log("LSE/EO done " + this.timerController.timer.getTime())
-                  this.solveStats["EO"] = { 
+                  console.log("LSE/EO done " + moveTime)
+                  this.solveStats.push({
+                    "name": "EO",
+                    "block": "",
                     "movecount": (this.moveList.length -1), 
-                    "time": this.timerController.timer.getTime(),
-                  };
+                    "time": moveTime,
+                  });
                   this.eoDone = true;
                 };
                 if (!this.solved && this.eoDone && this.timerController.isSolved(cubeRawState)) {
-                  console.log("Cube solved! " + this.timerController.timer.getTime());
-                  this.solveStats["END"] = { 
+                  console.log("Cube solved! " + moveTime);
+                  this.solveStats.push({
+                    "name": "LSE",
+                    "block": "",
                     "movecount": (this.moveList.length -1), 
-                    "time": this.timerController.timer.getTime(),
-                  };
+                    "time": moveTime,
+                  });
                   this.solved = true;
 
                 };
                 
                 
-                document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p><br />";
+                document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p>";
                 let statString = "";
-                for(var key in this.solveStats) {
-                  statString += "<p>" + key + ": " + this.solveStats[key].block;
-                  statString += " Moves: " + this.solveStats[key].movecount;
-                  statString += " Time: ";
-                  switch(key) {
-                  case "FB":
-                    statString += this.timerController.convertTime(this.solveStats[key].time);
-                      break;
-                    case "SB":
-                      statString += this.timerController.convertTime((this.solveStats[key].time - this.solveStats["FB"].time) );
-                      break;
-                    case "CMLL":
-                      statString += this.timerController.convertTime((this.solveStats[key].time - this.solveStats["SB"].time) );
-                      break;
-                    case "EO":
-                      statString += this.timerController.convertTime((this.solveStats[key].time - this.solveStats["CMLL"].time) );
-                      break;
-                    case "END":
-                      statString += this.timerController.convertTime((this.solveStats[key].time - this.solveStats["EO"].time) );
-                      break;
-                  };
-                  statString += "</p>";
-                  // do something with "key" and "value" variables
-                }
-                document.getElementById("moveDisplay").innerHTML = statString;                  
+                document.getElementById("moveDisplay").innerHTML = displayStats(this.solveStats);
               });
               device.addEventListener('gattserverdisconnected', () => {
                 disconnectFromBluetoothDevice(device);
@@ -147,16 +141,17 @@ class App extends React.Component {
           </button>
           <button onClick={() => { 
             this.moves = [];
-            this.moveList = [];
             this.fbFound = false;
             this.sbFound = false;
             this.cmllDone = false;
             this.eoDone = false;
             this.solved = false;
             this.solveStats = [];
+            this.moveList = [];
             this.moveList.push(this.cubeRawState);
-            document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p><br />";
-            document.getElementById("moveDisplay").innerHTML = "<p></p><br />";
+            this.timerController.timer.stop();
+            document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p>";
+            document.getElementById("moveDisplay").innerHTML = displayStats(this.solveStats);
             this.ready = true
           }}
           >Ready</button>
