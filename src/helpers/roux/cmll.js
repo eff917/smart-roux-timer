@@ -28,10 +28,6 @@ const faces = [
   "[6,6,6,6]"
 ];
 
-const allEqual = (face) => {
-  faces.includes(JSON.stringify(facelets))
-};
-
 export function isCMLLsolved(cubeState) {
   let cmllDone = true;
   faceletIndexes.forEach( face => {
