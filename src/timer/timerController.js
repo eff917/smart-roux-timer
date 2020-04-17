@@ -32,12 +32,16 @@ export  class timerController {
             this.solveTime = 0;
             console.log("Timer running");
         }
+        if (this.timer.isRunning()) {
+            let elapsedTime = this.timer.getTime()
+            console.log("Time from timer: " + elapsedTime)
+            document.getElementById("timer").innerHTML = "<p>" + convertTime(elapsedTime) + "</p>";
+        }
         if (this.timer.isRunning() && this.isSolved(cubeState)) {
             this.solveTime = this.timer.stop();
             document.getElementById("timer").innerHTML = "<p>" + convertTime(this.solveTime) + "</p>";
             console.log("Timer stopped");
         }
-        console.log("Time from timer: " + this.timer.getTime())
         return false;
     };
 }
