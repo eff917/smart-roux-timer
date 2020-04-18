@@ -28,7 +28,9 @@ class App extends React.Component {
     this.cmllDone = false;
     this.eoDone = false;
     this.solved = false;
+    this.moveCount = -1;
     this.solveStats = [];
+    this.prevMove = 0;
   }
   componentDidMount() {
     recolorCube(this.cubeRawState);
@@ -54,7 +56,13 @@ class App extends React.Component {
                   this.ready = false;
                 }
                 const moveTime = this.timerController.timer.getTime();
-                console.log("Time from move: " + moveTime);
+                console.log("Time between: " + (moveTime - this.prevMove));
+                // console.log("Time from move: " + moveTime);
+                // do not increment on slice moves
+                if ((moveTime - this.prevMove) > 80) {
+                  this.moveCount++;
+                };
+                this.prevMove = moveTime;
                         if (this.solveStats.length == 0) {
                           this.solveStats.push({
                             "name": "Start",
@@ -129,7 +137,7 @@ class App extends React.Component {
                 };
                 
                 
-                document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p>";
+                document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveCount) + " (estimated), " + (this.moveList.length - 1) +" (raw).</p>";
                 let statString = "";
                 document.getElementById("moveDisplay").innerHTML = displayStats(this.solveStats);
               });
@@ -142,6 +150,7 @@ class App extends React.Component {
           </button>
           <button onClick={() => { 
             this.moves = [];
+            this.moveCount = 0;
             this.fbFound = false;
             this.sbFound = false;
             this.cmllDone = false;
@@ -149,9 +158,10 @@ class App extends React.Component {
             this.solved = false;
             this.solveStats = [];
             this.moveList = [];
+            this.prevMove = 0;
             this.moveList.push(this.cubeRawState);
             this.timerController.timer.stop();
-            document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveList.length - 1) + "</p>";
+            document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveCount) + " (estimated), " + (this.moveList.length - 1) +" (raw).</p>";
             document.getElementById("moveDisplay").innerHTML = displayStats(this.solveStats);
             this.ready = true
           }}

@@ -34,7 +34,7 @@ export  class timerController {
         }
         if (this.timer.isRunning()) {
             let elapsedTime = this.timer.getTime()
-            console.log("Time from timer: " + elapsedTime)
+            // console.log("Time from timer: " + elapsedTime)
             document.getElementById("timer").innerHTML = "<p>" + convertTime(elapsedTime) + "</p>";
         }
         if (this.timer.isRunning() && this.isSolved(cubeState)) {
