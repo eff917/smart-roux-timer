@@ -19,10 +19,13 @@ let sliceMoves = ["M", "M'", "E", "E'", "S", "S'"];
   33 -> 17 -> 2 -> 36 -> 33
   34 -> 14 -> 1 -> 39 -> 34
   35 -> 11 -> 0 -> 42 -> 35
-
+  
   U' = 
   actually U' == U with current -> prev state check
-
+*/
+before = [];
+after = [];
+/*
   D = 
   yellow center:  22 -> 22
   yellow corners: 18 - 20 - 26 - 24 - 18
@@ -34,7 +37,8 @@ let sliceMoves = ["M", "M'", "E", "E'", "S", "S'"];
 
   D' = 
   same as D reversed (current -> previous state)
-  
+*/
+/*  
   R = 
   red center:  40-40
   red corners: 36-38-44-42-36
@@ -43,7 +47,8 @@ let sliceMoves = ["M", "M'", "E", "E'", "S", "S'"];
   0-18-27-53-0
   3-21-30-50-3
   6-24-33-47-6
-  
+*/
+/*
   L = 
   orange center:  13-13
   orange corners: 9-11-17-15-9
@@ -52,7 +57,8 @@ let sliceMoves = ["M", "M'", "E", "E'", "S", "S'"];
   2-51-29-20-2
   5-48-32-23-5
   8-45-35-26-8
-
+*/
+/*
   F = 
   green center: 
   green conrenrs: 
