@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/smart-roux-timer/static/css/main.b71a72dd.chunk.css",
-    "main.js": "/smart-roux-timer/static/js/main.1ececfe4.chunk.js",
-    "main.js.map": "/smart-roux-timer/static/js/main.1ececfe4.chunk.js.map",
+    "main.js": "/smart-roux-timer/static/js/main.8e5cae21.chunk.js",
+    "main.js.map": "/smart-roux-timer/static/js/main.8e5cae21.chunk.js.map",
     "runtime-main.js": "/smart-roux-timer/static/js/runtime-main.b217cc07.js",
     "runtime-main.js.map": "/smart-roux-timer/static/js/runtime-main.b217cc07.js.map",
-    "static/js/2.3468a343.chunk.js": "/smart-roux-timer/static/js/2.3468a343.chunk.js",
-    "static/js/2.3468a343.chunk.js.map": "/smart-roux-timer/static/js/2.3468a343.chunk.js.map",
+    "static/js/2.0116fa98.chunk.js": "/smart-roux-timer/static/js/2.0116fa98.chunk.js",
+    "static/js/2.0116fa98.chunk.js.map": "/smart-roux-timer/static/js/2.0116fa98.chunk.js.map",
     "index.html": "/smart-roux-timer/index.html",
-    "precache-manifest.87581126287f1f068791a085ad565f28.js": "/smart-roux-timer/precache-manifest.87581126287f1f068791a085ad565f28.js",
+    "precache-manifest.7ad4c7e1bcab1b2bab6d824c278c3d1e.js": "/smart-roux-timer/precache-manifest.7ad4c7e1bcab1b2bab6d824c278c3d1e.js",
     "service-worker.js": "/smart-roux-timer/service-worker.js",
     "static/css/main.b71a72dd.chunk.css.map": "/smart-roux-timer/static/css/main.b71a72dd.chunk.css.map",
-    "static/js/2.3468a343.chunk.js.LICENSE.txt": "/smart-roux-timer/static/js/2.3468a343.chunk.js.LICENSE.txt"
+    "static/js/2.0116fa98.chunk.js.LICENSE.txt": "/smart-roux-timer/static/js/2.0116fa98.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.b217cc07.js",
-    "static/js/2.3468a343.chunk.js",
+    "static/js/2.0116fa98.chunk.js",
     "static/css/main.b71a72dd.chunk.css",
-    "static/js/main.1ececfe4.chunk.js"
+    "static/js/main.8e5cae21.chunk.js"
   ]
 }
