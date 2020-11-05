@@ -20,7 +20,7 @@ export  class timerController {
         this.solveTime = 0;
     }
     isSolved(cubeState) {
-        if (JSON.stringify(cubeState) == JSON.stringify(this.solvedState)) {
+        if (JSON.stringify(cubeState) === JSON.stringify(this.solvedState)) {
             return true;
         } else {
             return false

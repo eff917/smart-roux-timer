@@ -8,8 +8,7 @@ import {
     Color
   } from "three";
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-  import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
-
+  
   var renderer = new WebGLRenderer();
   renderer.setSize( 500, 500 );
   document.getElementById( 'viewer' ).appendChild( renderer.domElement );

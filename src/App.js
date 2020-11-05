@@ -9,7 +9,7 @@ import { parseCube } from './helpers/cubeParser';
 import './App.css';
 
 import {renderCube, recolorCube} from './helpers/displayCube';
-import { timerController, convertTime } from "./timer/timerController";
+import { timerController } from "./timer/timerController";
 import { findBlock } from "./helpers/roux/blockfinder";
 import { isCMLLsolved } from "./helpers/roux/cmll";
 import { isEOsolved } from "./helpers/roux/eo";
@@ -52,7 +52,7 @@ class App extends React.Component {
               characteristic.addEventListener('characteristicvaluechanged', event => {
                 const { value } = event.target; // 20 bytes sent by the cube
                 const cubeRawState = parseCube(value);
-                if (this.timerController.stateTransition(cubeRawState, this.ready) == false) {
+                if (this.timerController.stateTransition(cubeRawState, this.ready) === false) {
                   this.ready = false;
                 }
                 const moveTime = this.timerController.timer.getTime();
@@ -63,7 +63,7 @@ class App extends React.Component {
                   this.moveCount++;
                 };
                 this.prevMove = moveTime;
-                        if (this.solveStats.length == 0) {
+                        if (this.solveStats.length === 0) {
                           this.solveStats.push({
                             "name": "Start",
                             "block": "",
@@ -92,7 +92,7 @@ class App extends React.Component {
                   this.sbFound = true;
                   console.log("First and second block: " + blockFound + " " + moveTime);
                   blockFound.forEach(foundBlock => {
-                    if (foundBlock.slice(0,2) == this.solveStats[1].block) {
+                    if (foundBlock.slice(0,2) === this.solveStats[1].block) {
                     } else {
                       this.solveStats.push({ 
                         "name": "SB",
@@ -138,7 +138,6 @@ class App extends React.Component {
                 
                 
                 document.getElementById("moveCount").innerHTML = "<p>Moves: " + (this.moveCount) + " (estimated), " + (this.moveList.length - 1) +" (raw).</p>";
-                let statString = "";
                 document.getElementById("moveDisplay").innerHTML = displayStats(this.solveStats);
               });
               device.addEventListener('gattserverdisconnected', () => {
