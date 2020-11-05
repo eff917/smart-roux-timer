@@ -10,7 +10,7 @@ import {
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
   
   var renderer = new WebGLRenderer();
-  renderer.setSize( 500, 500 );
+  renderer.setSize( Math.min(window.innerWidth, window.innerHeight), Math.min(window.innerWidth, window.innerHeight) );
   document.getElementById( 'viewer' ).appendChild( renderer.domElement );
   
 var scene = new Scene();
@@ -116,7 +116,8 @@ scene.add( cube );
 
 camera.position.z = 5;
 export function renderCube() {
-
+    const renderSize = Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.8)
+    renderer.setSize( renderSize, renderSize );
     renderer.render( scene, camera );
     // console.log(cube)
 
