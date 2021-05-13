@@ -1,0 +1,4 @@
+setup = "make install"
+build = "make build"
+tools = [ "eslint" ]
+
