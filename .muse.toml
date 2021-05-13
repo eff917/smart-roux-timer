@@ -1,0 +1,3 @@
+setup = "./install.sh"
+build = "make build"
+tools = [ "eslint" ]
